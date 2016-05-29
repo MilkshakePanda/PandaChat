@@ -1,0 +1,22 @@
+{
+  "name": "pandachat",
+  "version": "1.0.0",
+  "description": "Simple chat application built using html5 WebSockets API and node js on the back end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MilkshakePanda/PandaChat.git"
+  },
+  "author": "Karim Cheurfi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MilkshakePanda/PandaChat/issues"
+  },
+  "homepage": "https://github.com/MilkshakePanda/PandaChat#readme",
+  "dependencies": {
+    "ws": "^1.1.0"
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    
+    <script>
+       
+        // 1- Connect to the server using the ws protocol
+        var socket = new WebSocket("ws://localhost:1337") 
+
+        // 2- When the connection with the server is established
+        socket.onopen = function(event) {
+            // Send a message from the client to the server
+            socket.send("Ping from the client" + Math.random())
+
+            // Capture the messages sent by the server 
+            socket.onmessage = function(event) {
+                var message = event.data
+                document.write(message)
+            }
+        }
+        
+            
+    </script>
+</body>
+</html>

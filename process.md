@@ -46,3 +46,6 @@ When a user comes back, we want to display a message saying "user has joined the
 - Show the first method and then the broadcasting method (without saving the users connections we are only communicating to a single client)
 - Show how to implement users functionality ?
 
+
+# http://stackoverflow.com/questions/35535700/websockets-send-messages-and-notifications-to-all-clients-except-sender
+

@@ -2,28 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Panda Chat Application</title>
+    <style>
+    
+        textarea {
+            display: block;
+        }
+    
+    </style>
 </head>
 <body>
+
+    <h1 id="title"></h1>    
     
+    <div id="chatContainer"></div>
+
+    <form>
+     
+        <textarea placeholder="Type your message here" name="user_message"></textarea>
+        <button>Send Message</button>
+
+    </form>
+
+
     <script>
-       
-        // 1- Connect to the server using the ws protocol
-        var socket = new WebSocket("ws://localhost:1337") 
+        
+        // Establish connection with the socket server
+        const connection = new WebSocket("ws://localhost:1337", ['echo-protocol'])
+        const form       = document.forms[0]
+        const pageTitle  = document.querySelector("#title")
+        const chatContainer = document.querySelector("#chatContainer")
 
-        // 2- When the connection with the server is established
-        socket.onopen = function(event) {
-            // Send a message from the client to the server
-            socket.send("Ping from the client" + Math.random())
+        // On open
+        connection.onopen = () => pageTitle.innerHTML = "Connection Established"
+            
+        // On error
+        connection.onerror = (error) => console.log("There was an error of type " + error + " please try again shortly") 
 
-            // Capture the messages sent by the server 
-            socket.onmessage = function(event) {
-                var message = event.data
-                document.write(message)
-            }
+        // On Message
+        connection.onmessage = (event) => displayMessage(event.data)
+        
+        // When the user submits the form
+        form.onsubmit = (event) => sendMessage(event)
+
+        const sendMessage = (event) => {
+            event.preventDefault()
+            const message = form.elements["user_message"]
+            connection.send(message.value)
+            message.value = ""
+        }
+
+        const displayMessage = (message) => {
+            console.log(message)
+            const messageElement = document.createElement("P") // create an html element
+            messageElement.innerHTML = message 
+            chatContainer.appendChild(messageElement)        // append the fucker to the container
         }
         
-            
+
     </script>
+
 </body>
 </html>

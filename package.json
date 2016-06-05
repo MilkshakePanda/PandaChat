@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MilkshakePanda/PandaChat#readme",
   "dependencies": {
+    "websocket": "^1.0.23",
     "ws": "^1.1.0"
   }
 }

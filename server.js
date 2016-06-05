@@ -1,38 +1,73 @@
-const WebSocketServer = require("ws").Server
-const http            = require("http")
-const port            = process.env.PORT || 1337
-const server          = http.createServer()
+const WebSocketServer = require('websocket').server
+const http = require('http')
+const port = process.env.PORT || 1337
+const fs   = require('fs')
 
-server.listen(port, function(error) {
+
+// create server
+const server = http.createServer(function(request, response){
+
+    response.writeHead(200, {"Content-Type": "text/html"})
+    
+    if (request.url == "/") {
+    
+        fs.readFile(__dirname + "/client.html", null, function(error, data){
+            if (error) {
+                response.writeHead(404)
+                response.end("File not found bro")
+            } else {
+                response.end(data) 
+            }
+        
+        })
+    }
+})
+
+server.listen(port, function(err){
+    if (err) throw err
+    console.log("Server listening on port" + port)
+})
+
+// Create new websocket server
+
+// Store users connections for broadcasting
+
+const users = []
+
+const wsServer = new WebSocketServer({
+    httpServer: server,
+    autoAcceptConnections: true // Set to false in production
+})
+
+wsServer.on('connect', function(connection) {
+    
+    // Establish connection
+    // Store connection in the users array
+    users.push(connection)
+
+    const userId = Math.round(Math.random() * 100) 
+    console.log("connection from "  + userId)  
+
+    // When the clients send messages
+    connection.on('message', function(message){
+                
+        if (message.type === "utf8") {
+
+            // Loop through users and send them the message    
+            users.forEach( (user) => {
+                
+                user.send(message.utf8Data)
+                // connection.send(message.utf8Data) 
+            })
+        }
+    })
    
-    if (error) throw error
-
-    console.log("Server listening on port " + port)
-
-})
-
-const wss = new WebSocketServer({
-    server: server
-})
-
-console.log("WebSocketServer running")
-
-// Define what is going to happen on connection (when the client requests a connection to this server)
-wss.on('connection', function(ws) {
-    
-    console.log('Websocket connection opened')
-    
-    // Capture the messages sent by the client and log them to the console
-    ws.on('message', function(message){
-        console.log(message) 
+    // When the connection is closed 
+    connection.on('close', function() {
+        console.log("Socket has disconnected") 
     })
     
-    // When the connection is closed
-    ws.on('close', function(){
-        console.log('WebSocket Connection closed')
-    })
-    
-    // Send message to the client
-    ws.send("Ping from server")
-
 })
+
+
+

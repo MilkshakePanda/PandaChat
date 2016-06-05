@@ -32,3 +32,17 @@ When a user leaves the chat, we want to display a message saying "user has left 
 When a user comes back, we want to display a message saying "user has joined the chat"
 (we are not going to make the data persistent in this example, but we might when we use a more advanced and robust framework like socket.io)
 
+# Notes about websocket module
+
+- If we decide to not allow anyone to connect (ie setting the autoAcceptConnections to false), then on the client we want to specify a specific protocal and perhaps check if the origin is allowed or not. When we set that option to false, the server will then emit a request event which we can attach a callback to. In that callback function we want to make all the necessary checks regarding the origin of the request and decide whether or not to reject it. Also on the client side, we would have to add 'echo-protocol' property upon instantiation of the WebSocket object
+
+- If however we allow all hosts to connect to the server, then in that case it will emit a connect event. We can then catch the connection and the process is pretty much the same as the video. catch the incoming messages and send them to the client. To simulate the broadcast feature available in frameworks like socket.io we can store the users connection in an array. then in that array send a message to that particular user. (all users connected will receive the message)
+
+
+# Video - 
+
+- Write the code in es6 format
+- Use modules (overkill)
+- Show the first method and then the broadcasting method (without saving the users connections we are only communicating to a single client)
+- Show how to implement users functionality ?
+

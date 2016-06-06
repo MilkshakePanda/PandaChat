@@ -31,6 +31,8 @@ Ideally we would want to display their username
 When a user leaves the chat, we want to display a message saying "user has left the chat"
 When a user comes back, we want to display a message saying "user has joined the chat"
 (we are not going to make the data persistent in this example, but we might when we use a more advanced and robust framework like socket.io)
+show the entire conversation (message history array)
+show the users who left the chat and who joined the chat (uniquely identify the users on the back end)
 
 # Notes about websocket module
 
@@ -48,4 +50,11 @@ When a user comes back, we want to display a message saying "user has joined the
 
 
 # http://stackoverflow.com/questions/35535700/websockets-send-messages-and-notifications-to-all-clients-except-sender
+User visits the site
+He's asked to choose a user name and a color
+We store that username
+Then we show the chat application and let them interact (css tricks)
+when they send a message we actually build a json object containing a username and color
 
+## Chat tutorial
+http://usualcarrot.com/nodejs-and-websocket-simple-chat-tutorial

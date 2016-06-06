@@ -23,15 +23,16 @@
         <button>Send Message</button>
 
     </form>
-
-
+    
     <script>
         
+
         // Establish connection with the socket server
         const connection = new WebSocket("ws://localhost:1337", ['echo-protocol'])
         const form       = document.forms[0]
         const pageTitle  = document.querySelector("#title")
         const chatContainer = document.querySelector("#chatContainer")
+        const username = prompt("what's your username")
 
         // On open
         connection.onopen = () => pageTitle.innerHTML = "Connection Established"
@@ -41,24 +42,29 @@
 
         // On Message
         connection.onmessage = (event) => displayMessage(event.data)
-        
+
         // When the user submits the form
         form.onsubmit = (event) => sendMessage(event)
 
         const sendMessage = (event) => {
             event.preventDefault()
-            const message = form.elements["user_message"]
-            connection.send(message.value)
-            message.value = ""
+            const messageBody = form.elements["user_message"]
+            const message = {
+                
+                user: username,
+                body: messageBody.value
+            
+            }
+            connection.send(JSON.stringify(message))
+            messageBody.value = ""
         }
 
         const displayMessage = (message) => {
-            console.log(message)
+            const incomingMessage = JSON.parse(message)
             const messageElement = document.createElement("P") // create an html element
-            messageElement.innerHTML = message 
+            messageElement.innerHTML = incomingMessage.user + " says: " + incomingMessage.body 
             chatContainer.appendChild(messageElement)        // append the fucker to the container
         }
-        
 
     </script>
 

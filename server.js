@@ -45,20 +45,11 @@ wsServer.on('connect', function(connection) {
     // Store connection in the users array
     users.push(connection)
 
-    const userId = Math.round(Math.random() * 100) 
-    console.log("connection from "  + userId)  
-
     // When the clients send messages
     connection.on('message', function(message){
-                
+        
         if (message.type === "utf8") {
-
-            // Loop through users and send them the message    
-            users.forEach( (user) => {
-                
-                user.send(message.utf8Data)
-                // connection.send(message.utf8Data) 
-            })
+           broadcast(message.utf8Data) 
         }
     })
    
@@ -69,5 +60,18 @@ wsServer.on('connect', function(connection) {
     
 })
 
+const broadcast = (data) => {
+    
+    // Loop through the connected users
+    users.forEach( (user) => {
+        
+        if (user.connected) {
+            
+            user.send(data)
+        }
+    
+    })
+
+}
 
 

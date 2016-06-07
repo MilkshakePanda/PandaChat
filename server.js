@@ -1,27 +1,25 @@
 const WebSocketServer = require('websocket').server
-const http = require('http')
+const connect = require('connect')
+const http    = require('http')
 const port = process.env.PORT || 1337
 const fs   = require('fs')
-
+const app = connect()
 
 // create server
-const server = http.createServer(function(request, response){
+const server = http.createServer(app)
 
-    response.writeHead(200, {"Content-Type": "text/html"})
+// Serve index.html
+app.use('/', function(request, response) {
     
-    if (request.url == "/") {
-    
-        fs.readFile(__dirname + "/client.html", null, function(error, data){
-            if (error) {
-                response.writeHead(404)
-                response.end("File not found bro")
-            } else {
-                response.end(data) 
-            }
+    if (request.method == "GET") {
         
-        })
+        response.writeHead(200, {"Content-Type": "text/html"})
+        fs.createReadStream(__dirname + "/client.html").pipe(response)
+
     }
+
 })
+
 
 server.listen(port, function(err){
     if (err) throw err
@@ -44,6 +42,7 @@ wsServer.on('connect', function(connection) {
     // Establish connection
     // Store connection in the users array
     users.push(connection)
+    console.log("Connection with socket is established") 
 
     // When the clients send messages
     connection.on('message', function(message){

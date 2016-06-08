@@ -1,36 +1,29 @@
 const WebSocketServer = require('websocket').server
-const connect = require('connect')
-const http    = require('http')
+const express = require('express')
+const path = require('path')
 const port = process.env.PORT || 1337
 const fs   = require('fs')
-const app = connect()
-
-// create server
+const app = express()
+const http = require("http")
 const server = http.createServer(app)
 
-// Serve index.html
-app.use('/', function(request, response) {
-    
-    if (request.method == "GET") {
-        
-        response.writeHead(200, {"Content-Type": "text/html"})
-        fs.createReadStream(__dirname + "/client.html").pipe(response)
+app.use("/public", express.static("public"))
 
-    }
-
+// Render html file
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + "/client.html"))
 })
-
 
 server.listen(port, function(err){
     if (err) throw err
     console.log("Server listening on port" + port)
 })
 
-// Create new websocket server
-
 // Store users connections for broadcasting
 
 const users = []
+
+// Create new websocket server
 
 const wsServer = new WebSocketServer({
     httpServer: server,

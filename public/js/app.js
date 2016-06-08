@@ -5,7 +5,6 @@ const usernameInput = document.querySelector(".username-input")
 const messageInput  = document.querySelector(".message-input")
 const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
-const colors       = ["#BD1E1E", "#EFCB68", "#558D8F", "#D79C57", "#B9314F", "#4392F1", "#18206F"]
 let username
 
 Array.prototype.randIndex = function() {
@@ -28,8 +27,7 @@ connection.onmessage = (event) => displayMessage(event.data)
 
 const sendMessage = () => {
     const message = {
-        
-        user: username,
+        action: "new message",         
         body: messageInput.value
     
     }
@@ -38,13 +36,26 @@ const sendMessage = () => {
 }
 
 const displayMessage = (message) => {
+
+
+    // Switch case
+
+    // if message.action == new message
+    // display the chat message
+
+    // if message.action == user joined
+    // display message at the top
+    
+    // if message.action == user left
+    // display message at the top
+
     const incomingMessage = JSON.parse(message)
     const messageElement = document.createElement("P") 
     const usernameSpan   = document.createElement("span") 
     const messageBodySpan = document.createElement("span")
     
     usernameSpan.classList.add("username")
-    usernameSpan.style.color = "mediumseagreen" 
+    usernameSpan.style.color = incomingMessage.color
     usernameSpan.innerHTML = incomingMessage.user  + ": "
     
     messageBodySpan.classList.add("messageBody")
@@ -61,14 +72,11 @@ const setUsername = () => {
     // set the value of username to whatever the user has entered in the input field.trim()
     username = usernameInput.value.trim()
     
-    if (username) {
+    connection.send(JSON.stringify({action: "new user", body: username}))
         
-        loginPage.style.display = "none"
-        chatPage.style.display = "flex"
-        messageInput.focus()
-
-    }
-
+    loginPage.style.display = "none"
+    chatPage.style.display = "flex"
+    messageInput.focus()
 }
 
 

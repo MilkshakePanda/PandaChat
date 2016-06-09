@@ -104,7 +104,7 @@ const notifyUsers = (data) => {
 const updateConnectedUsers = (usernames) => {
     const usernamesContainer = document.querySelector(".connectedUsers")
     let   connectedUsers     = ""  
-    usernames.forEach( (username) => connectedUsers += "<li>" + username +"</li>" )
+    usernames.forEach( (username) => connectedUsers += `<li> ${username} </li>`)
     usernamesContainer.innerHTML = connectedUsers
 }
 

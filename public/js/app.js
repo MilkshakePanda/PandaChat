@@ -7,13 +7,6 @@ const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
 let username
 
-Array.prototype.randIndex = function() {
-
-    var ri = Math.floor(Math.random() * this.length)
-    return this[ri] 
-
-}
-
 // On open
 connection.onopen = () => console.log("connected") 
     
@@ -21,7 +14,28 @@ connection.onopen = () => console.log("connected")
 connection.onerror = (error) => console.log("There was an error of type " + error + " please try again shortly") 
 
 // On Message
-connection.onmessage = (event) => displayMessage(event.data)
+connection.onmessage = (event) => {
+    
+    const incomingData = JSON.parse(event.data)
+    const eventAction  = incomingData.action
+    
+    // Switch case
+    switch(eventAction) {
+
+        case "new message":
+            displayMessage(incomingData) 
+            break;
+        case "user joined":
+            notifyUsers(incomingData) 
+            showConnectedUsers(incomingData.usernames)
+            break;
+        case "user left":
+            notifyUsers(incomingData)
+            showConnectedUsers(incomingData.usernames)
+            break;
+    }
+
+}
 
 // When the user submits the form
 
@@ -37,29 +51,16 @@ const sendMessage = () => {
 
 const displayMessage = (message) => {
 
-
-    // Switch case
-
-    // if message.action == new message
-    // display the chat message
-
-    // if message.action == user joined
-    // display message at the top
-    
-    // if message.action == user left
-    // display message at the top
-
-    const incomingMessage = JSON.parse(message)
     const messageElement = document.createElement("P") 
     const usernameSpan   = document.createElement("span") 
     const messageBodySpan = document.createElement("span")
     
     usernameSpan.classList.add("username")
-    usernameSpan.style.color = incomingMessage.color
-    usernameSpan.innerHTML = incomingMessage.user  + ": "
+    usernameSpan.style.color = message.color
+    usernameSpan.innerHTML = message.user  + ": "
     
     messageBodySpan.classList.add("messageBody")
-    messageBodySpan.innerHTML = incomingMessage.body
+    messageBodySpan.innerHTML = message.body
     
     messageElement.appendChild(usernameSpan)
     messageElement.appendChild(messageBodySpan)
@@ -67,18 +68,58 @@ const displayMessage = (message) => {
     chatContainer.appendChild(messageElement)
 }
 
+
+// Notify Users
+// 1. Create the element
+// 2. Set its background color
+// 3. Set its text content to the message sent by the server
+// 4. Append the element to the notification container
+// 6. We show the notification container then hide it after two seconds
+// 5. Optional : Play a sound
+
+const notifyUsers = (data) => {
+    
+    const notificationContainer = document.querySelector(".userNotification")
+    const notificationElement = document.createElement("P")
+
+    notificationElement.style.backgroundColor = data.color
+    notificationElement.innerHTML = data.body
+    notificationContainer.appendChild(notificationElement)
+    notificationContainer.style.display = "block"
+
+    setTimeout( () => notificationContainer.style.display = "none", 2000)
+}
+
+const showConnectedUsers = (usernames) => {
+    
+    const usernamesContainer = document.querySelector(".connectedUsers")
+    let   connectedUsers     = ""  
+
+    // loop through the usernames array
+    usernames.forEach( (username) => {
+        
+        // for each one create an li element
+        // and set its text content to the username
+        connectedUsers += "<li>" + username +"</li>"
+    })
+
+    usernamesContainer.innerHTML = connectedUsers
+}
+
 const setUsername = () => {
     
     // set the value of username to whatever the user has entered in the input field.trim()
     username = usernameInput.value.trim()
-    
-    connection.send(JSON.stringify({action: "new user", body: username}))
-        
-    loginPage.style.display = "none"
-    chatPage.style.display = "flex"
-    messageInput.focus()
-}
 
+    if (username) {
+        connection.send(JSON.stringify({action: "new user", body: username}))
+        loginPage.style.display = "none"
+        chatPage.style.display = "flex"
+        messageInput.focus()
+    
+    }
+        
+}
 
 window.onkeydown = (event) => {
     
@@ -88,14 +129,12 @@ window.onkeydown = (event) => {
     // so we set a username then
 
     if (event.which === 13) {
-        
         event.preventDefault()
 
         if (username) {
             sendMessage()
         }
         else {
-
             setUsername()
         }
     

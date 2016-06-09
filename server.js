@@ -38,25 +38,25 @@ Array.prototype.randIndex = function() {
 
 }
 
-
+// Establish connection
 wsServer.on('connect', function(connection) {
     
-    // Establish connection
     // Store connection in the users array
     users.push(connection)
     console.log("Connection with socket is established") 
 
     // When the clients send messages
     connection.on('message', function(message){
-
+        
+        // If they send plain text and not binaryData
         if (message.type === "utf8") {
            
+            // We Parse the JSON incoming JSON objects
            const messageData = JSON.parse(message.utf8Data)
-           console.log(messageData)
 
            // If the username was sent and is not already in use
            if (messageData.action === "new user") {
-                
+               
                if (usernames.indexOf(messageData.body) != -1) {
                    
                    // if this does not return -1, then the username is in the array
@@ -68,13 +68,13 @@ wsServer.on('connect', function(connection) {
                } else {
                    
                    // If the username is not taken then we can just add it to the array
-                   connection.username = messageData.body
-                   connection.color = colors.randIndex()
-                   usernames.push(connection.username)
+                   connection.username = messageData.body // We attach the username to the socket itself
+                   connection.color = colors.randIndex() // We assign it a random color from the list
+                   usernames.push(connection.username)  // We add the username to the list
                     
-                   // Notify all users that the user joined the chat
-                   broadcast( JSON.stringify( {action: "user joined", user: "PandaChat", body: connection.username + " has just joined the discussion"}) )
-
+                   // Notify all users that the user joined the chat and send the new username array
+               broadcast( JSON.stringify({action: "user joined", color: "#1D2B53", user: "PandaChat", body: connection.username + " has just joined the discussion", usernames: usernames}) )
+                  
                }
 
            } else {
@@ -89,8 +89,16 @@ wsServer.on('connect', function(connection) {
    
     // When the connection is closed 
     connection.on('close', function() {
-        console.log("Socket has disconnected") 
-        delete users[connection]
+        console.log(connection.username + " has disconnected") 
+
+        // Delete the connection
+        users.splice(users.indexOf(connection), 1)
+        
+        // Delete the username
+        usernames.splice(usernames.indexOf(connection.username), 1)
+        
+        // Notify chat room that the user has left
+        broadcast( JSON.stringify( {action: "user joined", color: "#E04462", user: "PandaChat", body: connection.username + " has just left the discussion", usernames: usernames}) )
     })
     
 })
@@ -108,5 +116,3 @@ const broadcast = (data) => {
     })
 
 }
-
-

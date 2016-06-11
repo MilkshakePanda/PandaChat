@@ -73,7 +73,7 @@ const displayMessage = (data) => {
                 
     </p>`
 
-    chatContainer.innerHTML = messageToDisplay
+    chatContainer.innerHTML += messageToDisplay
 }
 
 

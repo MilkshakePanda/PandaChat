@@ -13,24 +13,23 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + "/client.html")
 })
 
+// Listen for request
 server.listen(port, function(err){
     if (err) throw err
     console.log("Server listening on port" + port)
 })
 
-// Store users connections for broadcasting
-
+// Store users and usernames 
 let users = []
 let usernames = []
 
 // Create new websocket server
-
 const wsServer = new WebSocketServer({
     httpServer: server,
     autoAcceptConnections: true // Set to false in production
 })
 
-// Extend the Array Prototype 
+// Extend the Array Prototype to get a random index from an array
 Array.prototype.randIndex = function() {
 
     var ri = Math.floor(Math.random() * this.length)
@@ -41,7 +40,8 @@ Array.prototype.randIndex = function() {
 // Establish connection
 wsServer.on('connect', function(connection) {
     
-    // Store connection in the users array
+    // When a user connects we store their connection
+    // in the users array 
     users.push(connection)
     console.log("Connection with socket is established") 
 
@@ -51,7 +51,7 @@ wsServer.on('connect', function(connection) {
         // If they send plain text and not binaryData
         if (message.type === "utf8") {
            
-            // We Parse the JSON incoming JSON objects
+           // We Parse the incoming JSON objects
            const messageData = JSON.parse(message.utf8Data)
 
            // If the username was sent and is not already in use

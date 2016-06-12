@@ -16,6 +16,7 @@ div.page {
 
 div.login.page {
     background-color: mediumseagreen;
+    z-index: 199;
 }
 
 div.chat.page {

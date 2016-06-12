@@ -32,8 +32,8 @@ const wsServer = new WebSocketServer({
 // Extend the Array Prototype to get a random index from an array
 Array.prototype.randIndex = function() {
 
-    var ri = Math.floor(Math.random() * this.length)
-    return this[ri] 
+    const randomIndex = Math.floor(Math.random() * this.length)
+    return this[randomIndex] 
 
 }
 
@@ -73,7 +73,7 @@ wsServer.on('connect', function(connection) {
                    usernames.push(connection.username)  // We add the username to the list
                     
                    // Notify all users that the user joined the chat and send the new username array
-               broadcast( JSON.stringify({action: "user joined", color: "#1D2B53", user: "PandaChat", body: connection.username + " has just joined the discussion", usernames: usernames}) )
+               broadcast( JSON.stringify({action: "user joined", color: "#1D2B53", user: "PandaChat", body: connection.username + " has joined the discussion", usernames: usernames}) )
                   
                }
 
@@ -97,9 +97,13 @@ wsServer.on('connect', function(connection) {
         // Delete the username
         usernames.splice(usernames.indexOf(connection.username), 1)
         
-        // Notify chat room that the user has left
-        broadcast( JSON.stringify( {action: "user joined", color: "#E04462", user: "PandaChat", body: connection.username + " has just left the discussion", usernames: usernames}) )
+        if (connection.username) {
+        
+            // Notify chat room that the user has left
+            broadcast( JSON.stringify( {action: "user joined", color: "#E04462", user: "PandaChat", body: connection.username + " has left the discussion", usernames: usernames}) )
     })
+        
+        }
     
 })
 

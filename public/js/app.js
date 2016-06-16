@@ -1,8 +1,10 @@
 // Establish connection with the socket server
 const connection = new WebSocket("ws://localhost:1337", ['echo-protocol'])
-const chatContainer = document.querySelector(".messages")
-const usernameInput = document.querySelector(".username-input")
-const messageInput  = document.querySelector(".message-input")
+
+const chatBox       = document.querySelector(".chat__chat-box")
+const usernameInput = document.querySelector(".login__username")
+const messageInput  = document.querySelector(".chat__message-input")
+
 const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
 let username
@@ -83,15 +85,14 @@ const displayMessage = (data) => {
 // 3. We show it (it's display none by default")
 // 4. After two seconds we hide it again
 
+// Create the element on the fly using template strings (className: chat__notifications)
 const notifyUsers = (data) => {
     
-    const notificationContainer = document.querySelector(".userNotification")
+    const notificationMessage = `<div class="chat__notifications" style="display: block;">
+        <p style="background-color: ${data.color}">${data.body}</p>
+    </div>`  
 
-    notificationContainer.innerHTML = "<p>" + data.body  + "</p>"
-    notificationContainer.style.backgroundColor = data.color
-    notificationContainer.style.display = "block"
-
-    setTimeout( () => notificationContainer.style.display = "none", 2000)
+    setTimeout( () => notificationMessage.style.display = "none", 2000)
 }
 
 // Update Connected Users 

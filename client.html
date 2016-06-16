@@ -6,38 +6,35 @@
     <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
-
-    <h1 id="title"></h1>    
-
     
-    <div class="login page">
+    <section class="login page">
         
-        <h1>Choose a username </h1>
-        <input type="text" maxlength="14" placeholder="Username" class="username-input">
+        <h1 class="login__title">Choose a username </h1>
+        <input class="login__username" type="text" maxlength="14" placeholder="Username">
     
-    </div>
+    </section>
 
-    <div class="chat page">
+    <section class="chat page">
         
-        <div class="userNotification">
-        </div>
+        <main class="chat__chat-box">
 
-        <h2>Chat page</h2>
-
-        <div class="messages">
-        </div>
+        </main>
         
-        <form>
+        <form class="chat__form">
             
-            <input type="text" placeholder="Type your message here" class="message-input">
+            <input type="text" placeholder="Type your message here" class="chat__message-input">
         
         </form>
+        
+        <div class="chat__connected-users">
 
-        <h2>Connected Users</h2>
+            <h2>Connected Users</h2>
+            
+            <ul class="chat__users-list"></ul>
 
-        <div class="connectedUsers"></div>
+        </div>
     
-    </div>
+    </section>
     
     <script src="/public/js/app.js"></script>
 

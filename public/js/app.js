@@ -9,6 +9,9 @@ const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
 let username
 
+// When the window loads
+window.onload = () => usernameInput.focus()
+
 // On open
 connection.onopen = () => console.log("connected") 
     

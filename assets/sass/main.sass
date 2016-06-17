@@ -1,6 +1,33 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:400,500,700")
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600")
 
-@import 'vendors/index'
+@import 'vendor/index'
 @import 'sections/index'
 
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-family: "Source Sans Pro", sans-serif
+
+h1, h2, h3, h4, h5, h6
+    font-family: 'Ubuntu', sans-serif
+
+.page
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+.page.login
+    background: #4183F3
+    z-index: 199
+
+.page.chat
+    background: #F8C775
+    display: none

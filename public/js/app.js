@@ -78,7 +78,7 @@ const displayMessage = (data) => {
                 
     </p>`
 
-    chatContainer.innerHTML += messageToDisplay
+    chatBox.innerHTML += messageToDisplay
 }
 
 

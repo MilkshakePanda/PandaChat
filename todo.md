@@ -19,6 +19,7 @@
 
 - Add timestamp next to username 
 - When user adds multiple message but someone hasnt replied, send the message in the same container ?
+- Play a popup sound with every notification
 
 
 

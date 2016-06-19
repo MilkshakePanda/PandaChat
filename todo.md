@@ -1,25 +1,18 @@
 # List of things to complete for the project
 
-- Add GreenSock and animate the page
-- How to fadeOut using plain JS (with transition)
-
-- try to implement callbacks in the pandachat project
-- Deal with the notification business 
-
-- fix class names in javascript
-- add box shadow to the chat 
-- darker background on the chat area
-- move the "connected users title"
-- add dummy static users and style the section
-- style input (remove outline, choose better border => light grey preferably)
-- overflow scroll to the message box
 - style message container
+- Add timestamp next to username 
+- Recreate the message container in javascript (add the necessary html elements and populate with the correct data => colors, uppercase username, username, body, timestamp)
+**Create function to return the time only**
+- Play a popup sound with every notification
+
+- How to fadeOut using plain JS (with transition)
+- Add GreenSock and animate the page
+- Deal with the notification business (just send a message with a particular class and append it to the chat)
 
 ## Javascript
 
-- Add timestamp next to username 
-- When user adds multiple message but someone hasnt replied, send the message in the same container ?
-- Play a popup sound with every notification
+- try to implement callbacks in the pandachat project (with events)
 
 
 

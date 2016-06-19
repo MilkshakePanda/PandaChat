@@ -155,6 +155,8 @@ window.onkeydown = function (event) {
     }
 };
 
+document.body.className = "no-svg";
+
 },{}]},{},[1])
 
 

@@ -156,3 +156,5 @@ window.onkeydown = (event) => {
 
     }
 }
+
+document.body.className = "no-svg"

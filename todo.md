@@ -6,7 +6,7 @@
 - Play a popup sound with every notification
 
 
-
+- Style footer
 - How to fadeOut using plain JS (with transition)
 - Add GreenSock and animate the page
 - Deal with the notification business (just send a message with a particular class and append it to the chat)

@@ -3,8 +3,8 @@
 - Play a popup sound with every notification
 - Style footer
 - fix the users connecition business (maybe using className ?)
-
-
+- username taken business
+- username not trimmed ? wtf ?
 
 
 - How to fadeOut using plain JS (with transition)

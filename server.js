@@ -1,4 +1,5 @@
 const WebSocketServer = require('websocket').server
+const date = new Date()
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 1337
@@ -53,12 +54,11 @@ wsServer.on('connect', function(connection) {
 
            // We Parse the incoming JSON objects
            const messageData = JSON.parse(message.utf8Data)
-
+            
            // If the username was sent and is not already in use
            if (messageData.action === "new user") {
 
                if (usernames.indexOf(messageData.body) != -1) {
-
                    // if this does not return -1, then the username is in the array
                    // therefore in use by another client
                    // send a json object with an event of username taken
@@ -80,7 +80,7 @@ wsServer.on('connect', function(connection) {
            } else {
 
                // If the message sent wasn't a username then it's just a chat message, so broadcast it to all clients
-               broadcast(JSON.stringify({action: "new message", color: connection.color, user: connection.username, body: messageData.body}))
+               broadcast(JSON.stringify({action: "new message", color: connection.color, user: connection.username, body: messageData.body, time: getTimeStamp(), initials: returnUppercaseInitials(connection.username)}))
 
            }
 
@@ -108,15 +108,24 @@ wsServer.on('connect', function(connection) {
 })
 
 const broadcast = (data) => {
-
     // Loop through the connected users
     users.forEach( (user) => {
-
         if (user.connected) {
-
             user.send(data)
         }
-
     })
+}
+
+const getTimeStamp = () => {
+
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+    return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`
+}
+
+const returnUppercaseInitials = (username) => {
+   
+   const initials = username.substring(0, 2) 
+   return initials.toUpperCase()
 
 }

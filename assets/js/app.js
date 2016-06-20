@@ -2,8 +2,10 @@
 const connection = new WebSocket("ws://localhost:1337", ['echo-protocol'])
 
 const chatBox       = document.querySelector(".chat__chat-box")
+const messageBox    = document.querySelector(".chat__messages")
 const usernameInput = document.querySelector(".login__username")
 const messageInput  = document.querySelector(".chat__message-input")
+const usernamesContainer = document.querySelector(".chat__users-list")
 
 const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
@@ -13,7 +15,7 @@ let username
 window.onload = () => usernameInput.focus()
 
 // On open
-connection.onopen = () => console.log("connected")
+connection.onopen = () => console.log("connected") 
 
 // On error
 connection.onerror = (error) => console.log("There was an error of type " + error + " please try again shortly")
@@ -34,6 +36,7 @@ connection.onmessage = (event) => {
             break;
         case "user joined":
             notifyUsers(incomingData)
+            console.log(incomingData.usernames)
             updateConnectedUsers(incomingData.usernames)
             break;
         case "user left":
@@ -75,16 +78,16 @@ const displayMessage = (data) => {
     let messageToDisplay  = `
     
     <div class="message">
-        <span class="message__avatar" style="background-color: ${data.color}">?!</span>
+        <span class="message__avatar" style="background-color: ${data.color}">${data.initials}</span>
         <p class="message__body">
             <strong class="message__username">${data.user}</strong>
             ${data.body}
         </p>
-        <time>time</time>
+        <time>${data.time}</time>
     </div>
     `
 
-    chatBox.innerHTML += messageToDisplay
+    messageBox.innerHTML += messageToDisplay
 }
 
 
@@ -112,10 +115,9 @@ const notifyUsers = (data) => {
 // 5. When a user leaves this function is fired (it's very fast so people won't noticed that we are not caching the array)
 
 const updateConnectedUsers = (usernames) => {
-    const usernamesContainer = document.querySelector(".connectedUsers")
     let   connectedUsers     = ""
     usernames.forEach( (username) => connectedUsers += `<li> ${username} </li>`)
-    usernamesContainer.innerHTML = connectedUsers
+    usernamesContainer.innerHTML += connectedUsers
 }
 
 

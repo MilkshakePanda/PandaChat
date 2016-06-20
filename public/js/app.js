@@ -5,8 +5,10 @@
 var connection = new WebSocket("ws://localhost:1337", ['echo-protocol']);
 
 var chatBox = document.querySelector(".chat__chat-box");
+var messageBox = document.querySelector(".chat__messages");
 var usernameInput = document.querySelector(".login__username");
 var messageInput = document.querySelector(".chat__message-input");
+var usernamesContainer = document.querySelector(".chat__users-list");
 
 var loginPage = document.querySelector(".login");
 var chatPage = document.querySelector(".chat");
@@ -43,6 +45,7 @@ connection.onmessage = function (event) {
             break;
         case "user joined":
             notifyUsers(incomingData);
+            console.log(incomingData.usernames);
             updateConnectedUsers(incomingData.usernames);
             break;
         case "user left":
@@ -79,9 +82,9 @@ var sendMessage = function sendMessage() {
 
 var displayMessage = function displayMessage(data) {
 
-    var messageToDisplay = "\n    \n    <div class=\"message\">\n        <span class=\"message__avatar\" style=\"background-color: " + data.color + "\">?!</span>\n        <p class=\"message__body\">\n            <strong class=\"message__username\">" + data.user + "</strong>\n            " + data.body + "\n        </p>\n        <time>time</time>\n    </div>\n    ";
+    var messageToDisplay = "\n    \n    <div class=\"message\">\n        <span class=\"message__avatar\" style=\"background-color: " + data.color + "\">" + data.initials + "</span>\n        <p class=\"message__body\">\n            <strong class=\"message__username\">" + data.user + "</strong>\n            " + data.body + "\n        </p>\n        <time>" + data.time + "</time>\n    </div>\n    ";
 
-    chatBox.innerHTML += messageToDisplay;
+    messageBox.innerHTML += messageToDisplay;
 };
 
 // Notify Users
@@ -108,12 +111,11 @@ var notifyUsers = function notifyUsers(data) {
 // 5. When a user leaves this function is fired (it's very fast so people won't noticed that we are not caching the array)
 
 var updateConnectedUsers = function updateConnectedUsers(usernames) {
-    var usernamesContainer = document.querySelector(".connectedUsers");
     var connectedUsers = "";
     usernames.forEach(function (username) {
         return connectedUsers += "<li> " + username + " </li>";
     });
-    usernamesContainer.innerHTML = connectedUsers;
+    usernamesContainer.innerHTML += connectedUsers;
 };
 
 // Set Username

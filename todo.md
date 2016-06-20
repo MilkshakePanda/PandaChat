@@ -1,10 +1,11 @@
 # List of things to complete for the project
 
-- style message container
+- Create function to return the time
 - Add timestamp next to username 
-- Recreate the message container in javascript (add the necessary html elements and populate with the correct data => colors, uppercase username, username, body, timestamp)
-**Create function to return the time only**
+- Function to return uppercase usernam (backend)
 - Play a popup sound with every notification
+
+
 
 - How to fadeOut using plain JS (with transition)
 - Add GreenSock and animate the page

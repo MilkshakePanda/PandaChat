@@ -72,11 +72,17 @@ const sendMessage = () => {
 
 const displayMessage = (data) => {
 
-    let messageToDisplay  = `<p>
-        <span class="username" style="color: ${data.color};"> ${data.user}: </span>
-        <span class="messageBody"> ${data.body} </span>
-
-    </p>`
+    let messageToDisplay  = `
+    
+    <div class="message">
+        <span class="message__avatar" style="background-color: ${data.color}">?!</span>
+        <p class="message__body">
+            <strong class="message__username">${data.user}</strong>
+            ${data.body}
+        </p>
+        <time>time</time>
+    </div>
+    `
 
     chatBox.innerHTML += messageToDisplay
 }

@@ -79,7 +79,7 @@ var sendMessage = function sendMessage() {
 
 var displayMessage = function displayMessage(data) {
 
-    var messageToDisplay = "<p>\n        <span class=\"username\" style=\"color: " + data.color + ";\"> " + data.user + ": </span>\n        <span class=\"messageBody\"> " + data.body + " </span>\n\n    </p>";
+    var messageToDisplay = "\n    \n    <div class=\"message\">\n        <span class=\"message__avatar\" style=\"background-color: " + data.color + "\">?!</span>\n        <p class=\"message__body\">\n            <strong class=\"message__username\">" + data.user + "</strong>\n            " + data.body + "\n        </p>\n        <time>time</time>\n    </div>\n    ";
 
     chatBox.innerHTML += messageToDisplay;
 };

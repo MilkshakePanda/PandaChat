@@ -60,6 +60,41 @@
     &:focus
         outline: 0
 
+.message
+    display: flex
+    padding: 1em
+    background: #fefefe
+    margin-bottom: 1em
+    
+    time
+        text-align: right
+
+
+.message__avatar, time
+    flex-grow: 1
+
+.message__body
+    flex-basis: 78%
+    font-size: 1em
+    line-height: 1.47
+
+.message__avatar
+    background: brown
+    margin-right: 1em
+    display: flex
+    align-items: center
+    justify-content: center
+    font-size: 2em
+    border-radius: 50%
+    width: 0
+    color: #fefefe
+
+
+.message__username
+    display: block
+    color: darken(#e7E7E7, 28%)
+    font-size: 1.1em
+
 body.no-svg
     svg 
         display: none

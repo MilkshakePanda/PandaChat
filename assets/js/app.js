@@ -9,6 +9,10 @@ const usernamesContainer = document.querySelector(".chat__users-list")
 
 const loginPage     = document.querySelector(".login")
 const chatPage     = document.querySelector(".chat")
+
+const audio = new Audio()
+audio.src = '/public/audio/message.wav'
+
 let username
 
 // When the window loads
@@ -88,6 +92,7 @@ const displayMessage = (data) => {
     `
 
     messageBox.innerHTML += messageToDisplay
+    playNotification()
 }
 
 
@@ -134,16 +139,21 @@ const updateConnectedUsers = (usernames) => {
 const setUsername = () => {
     // set the value of username to whatever the user has entered in the input field.trim()
     username = usernameInput.value.trim()
+    console.log(username)
 
     if (username) {
         connection.send(JSON.stringify({action: "new user", body: username}))
         loginPage.style.display = "none"
         chatPage.style.display = "flex"
+        document.body.className = "no-svg"
         messageInput.focus()
 
     }
 
 }
+
+const playNotification = () => audio.play()
+
 
 // We listen for keydown events
 // When the user hits enter
@@ -151,7 +161,6 @@ const setUsername = () => {
     // So in that case we call the sendMessage function
 // However is username is not defined then they are still looking at the login page which means they want to set their username
     // in that case we call the setUsername() function
-
 
 window.onkeydown = (event) => {
 
@@ -167,5 +176,3 @@ window.onkeydown = (event) => {
 
     }
 }
-
-document.body.className = "no-svg"

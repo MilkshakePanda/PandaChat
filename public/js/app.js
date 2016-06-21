@@ -12,6 +12,10 @@ var usernamesContainer = document.querySelector(".chat__users-list");
 
 var loginPage = document.querySelector(".login");
 var chatPage = document.querySelector(".chat");
+
+var audio = new Audio();
+audio.src = '/public/audio/message.wav';
+
 var username = void 0;
 
 // When the window loads
@@ -85,6 +89,7 @@ var displayMessage = function displayMessage(data) {
     var messageToDisplay = "\n    \n    <div class=\"message\">\n        <span class=\"message__avatar\" style=\"background-color: " + data.color + "\">" + data.initials + "</span>\n        <p class=\"message__body\">\n            <strong class=\"message__username\">" + data.user + "</strong>\n            " + data.body + "\n        </p>\n        <time>" + data.time + "</time>\n    </div>\n    ";
 
     messageBox.innerHTML += messageToDisplay;
+    playNotification();
 };
 
 // Notify Users
@@ -130,13 +135,19 @@ var updateConnectedUsers = function updateConnectedUsers(usernames) {
 var setUsername = function setUsername() {
     // set the value of username to whatever the user has entered in the input field.trim()
     username = usernameInput.value.trim();
+    console.log(username);
 
     if (username) {
         connection.send(JSON.stringify({ action: "new user", body: username }));
         loginPage.style.display = "none";
         chatPage.style.display = "flex";
+        document.body.className = "no-svg";
         messageInput.focus();
     }
+};
+
+var playNotification = function playNotification() {
+    return audio.play();
 };
 
 // We listen for keydown events
@@ -158,8 +169,6 @@ window.onkeydown = function (event) {
         }
     }
 };
-
-document.body.className = "no-svg";
 
 },{}]},{},[1])
 

@@ -113,9 +113,12 @@ const notifyUsers = (data) => {
 // 3. for each username in the array we append an li element
 // 4. outside the loop we set the innerHTML of the list container to that newly created string
 // 5. When a user leaves this function is fired (it's very fast so people won't noticed that we are not caching the array)
+// Not an ideal solution. Need to think of a better approach but I'm fasting so whatevs
+
 
 const updateConnectedUsers = (usernames) => {
-    let   connectedUsers     = ""
+    let  connectedUsers  = ""
+    usernamesContainer.innerHTML = ""
     usernames.forEach( (username) => connectedUsers += `<li> ${username} </li>`)
     usernamesContainer.innerHTML += connectedUsers
 }

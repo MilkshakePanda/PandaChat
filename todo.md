@@ -1,8 +1,8 @@
 # List of things to complete for the project
 
+- fix the users connecition business (maybe using className ?)
 - Play a popup sound with every notification
 - Style footer
-- fix the users connecition business (maybe using className ?)
 - username taken business
 - username not trimmed ? wtf ?
 

@@ -3,11 +3,6 @@ import {Socket} from './lib/socket'
 const messageInput  = document.querySelector(".chat__message-input")
 const usernameInput = document.querySelector(".login__username")
 
-const audio = new Audio()
-const muteBtn = document.getElementById("mute")
-audio.src = '/public/audio/message.wav'
-let audioAllowed = true
-
 // When the window loads
 window.onload = () => usernameInput.focus()
 
@@ -42,23 +37,6 @@ Socket.connection.onmessage = (event) => {
     }
 
 }
-
-const playNotification = () => { if (audioAllowed) { audio.play() } }
-
-const toggleNotificationSounds = (event) => {
-    
-    const button = event.target
-
-    if (audioAllowed){
-        audioAllowed = false
-        button.innerHTML = "Unmute Sound"
-    } else {
-        audioAllowed = true
-        button.innerHTML = "Mute Sound"
-    }
-} 
-
-muteBtn.addEventListener("click", (event) => toggleNotificationSounds(event), false)
 
 // We listen for keydown events
 // When the user hits enter

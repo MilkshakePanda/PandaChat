@@ -6,11 +6,6 @@ var _socket = require("./lib/socket");
 var messageInput = document.querySelector(".chat__message-input");
 var usernameInput = document.querySelector(".login__username");
 
-var audio = new Audio();
-var muteBtn = document.getElementById("mute");
-audio.src = '/public/audio/message.wav';
-var audioAllowed = true;
-
 // When the window loads
 window.onload = function () {
     return usernameInput.focus();
@@ -50,29 +45,6 @@ _socket.Socket.connection.onmessage = function (event) {
             break;
     }
 };
-
-var playNotification = function playNotification() {
-    if (audioAllowed) {
-        audio.play();
-    }
-};
-
-var toggleNotificationSounds = function toggleNotificationSounds(event) {
-
-    var button = event.target;
-
-    if (audioAllowed) {
-        audioAllowed = false;
-        button.innerHTML = "Unmute Sound";
-    } else {
-        audioAllowed = true;
-        button.innerHTML = "Mute Sound";
-    }
-};
-
-muteBtn.addEventListener("click", function (event) {
-    return toggleNotificationSounds(event);
-}, false);
 
 // We listen for keydown events
 // When the user hits enter

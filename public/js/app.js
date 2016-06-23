@@ -6,6 +6,8 @@ var _socket = require("./lib/socket");
 var messageInput = document.querySelector(".chat__message-input");
 var usernameInput = document.querySelector(".login__username");
 
+_socket.Socket.connection = new WebSocket('ws://localhost:1337');
+
 // When the window loads
 window.onload = function () {
     return usernameInput.focus();
@@ -67,18 +69,18 @@ window.onkeydown = function (event) {
 };
 
 },{"./lib/socket":2}],2:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.Socket = undefined;
 
-var _sounds = require('./sounds');
+var _sounds = require("./sounds");
 
 var Socket = {
     username: null,
-    connection: new WebSocket('ws://localhost:1337', ['echo-protocol'])
+    connection: null
 };
 
 var loginPage = document.querySelector(".login");
@@ -115,7 +117,7 @@ Socket.sendMessage = function () {
 
 Socket.displayMessage = function (data) {
 
-    var messageToDisplay = '\n    \n    <div class="message">\n        <span class="message__avatar" style="background-color: ' + data.color + '">' + data.initials + '</span>\n        <p class="message__body">\n            <strong class="message__username">' + data.user + '</strong>\n            ' + data.body + '\n        </p>\n        <time>' + data.time + '</time>\n    </div>\n    ';
+    var messageToDisplay = "\n    \n    <div class=\"message\">\n        <span class=\"message__avatar\" style=\"background-color: " + data.color + "\">" + data.initials + "</span>\n        <p class=\"message__body\">\n            <strong class=\"message__username\">" + data.user + "</strong>\n            " + data.body + "\n        </p>\n        <time>" + data.time + "</time>\n    </div>\n    ";
 
     messageBox.innerHTML += messageToDisplay;
     _sounds.Sounds.playNotification();
@@ -130,7 +132,7 @@ Socket.displayMessage = function (data) {
 // Create the element on the fly using template strings (className: chat__notifications)
 Socket.notifyUsers = function (data) {
 
-    var notificationMessage = '<div class="chat__notifications" style="display: block;">\n        <p style="background-color: ' + data.color + '">' + data.body + '</p>\n    </div>';
+    var notificationMessage = "<div class=\"chat__notifications\" style=\"display: block;\">\n        <p style=\"background-color: " + data.color + "\">" + data.body + "</p>\n    </div>";
 
     messageBox.innerHTML += notificationMessage;
 };
@@ -147,7 +149,7 @@ Socket.updateConnectedUsers = function (usernames) {
     var connectedUsers = "";
     usernamesContainer.innerHTML = "";
     usernames.forEach(function (username) {
-        return connectedUsers += '<li> ' + username + ' </li>';
+        return connectedUsers += "<li> " + username + " </li>";
     });
     usernamesContainer.innerHTML += connectedUsers;
 };

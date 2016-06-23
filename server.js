@@ -63,6 +63,7 @@ wsServer.on('connect', function(connection) {
                    // therefore in use by another client
                    // send a json object with an event of username taken
                    // on the front end check for that event and deal with it accordingly
+                   console.log('username taken')
                    connection.send(JSON.stringify({action: "username taken", message: "This username is taken bro, don't be greedy"}))
 
                } else {

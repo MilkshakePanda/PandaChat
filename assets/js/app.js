@@ -3,8 +3,12 @@ import {Socket} from './lib/socket'
 const messageInput  = document.querySelector(".chat__message-input")
 const usernameInput = document.querySelector(".login__username")
 
+
+Socket.connection = new WebSocket('ws://localhost:1337')
+
 // When the window loads
-window.onload = () => usernameInput.focus()
+window.onload = () => usernameInput.focus() 
+
 
 // On open
 Socket.connection.onopen = () => console.log("connected") 

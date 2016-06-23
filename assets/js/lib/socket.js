@@ -2,7 +2,7 @@ import {Sounds} from './sounds'
 
 let Socket = {
     username: null,
-    connection: new WebSocket('ws://localhost:1337', ['echo-protocol'])
+    connection: null, 
 }
 
 const loginPage     = document.querySelector(".login")

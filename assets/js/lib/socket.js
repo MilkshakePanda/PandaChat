@@ -110,4 +110,4 @@ Socket.setUsername = () => {
 
 }
 
-export {Socket}
+export default Socket

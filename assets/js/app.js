@@ -1,4 +1,4 @@
-import {Socket} from './lib/socket'
+import Socket from './lib/socket'
 
 const messageInput  = document.querySelector(".chat__message-input")
 const usernameInput = document.querySelector(".login__username")

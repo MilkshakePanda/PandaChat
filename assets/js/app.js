@@ -4,7 +4,7 @@ const messageInput  = document.querySelector(".chat__message-input")
 const usernameInput = document.querySelector(".login__username")
 
 
-Socket.connection = new WebSocket('ws://socketchat123.herokuapp.com')
+Socket.connection = new WebSocket('wss://socketchat123.herokuapp.com')
 
 // When the window loads
 window.onload = () => usernameInput.focus() 

@@ -6,7 +6,7 @@ var _socket = require("./lib/socket");
 var messageInput = document.querySelector(".chat__message-input");
 var usernameInput = document.querySelector(".login__username");
 
-_socket.Socket.connection = new WebSocket('ws://socketchat123.herokuapp.com');
+_socket.Socket.connection = new WebSocket('wss://socketchat123.herokuapp.com');
 
 // When the window loads
 window.onload = function () {

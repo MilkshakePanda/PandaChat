@@ -4,7 +4,7 @@ const messageInput  = document.querySelector(".chat__message-input")
 const usernameInput = document.querySelector(".login__username")
 
 
-Socket.connection = new WebSocket('ws://localhost:1337')
+Socket.connection = new WebSocket('ws://panda')
 
 // When the window loads
 window.onload = () => usernameInput.focus() 

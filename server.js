@@ -1,3 +1,5 @@
+'use strict'
+
 const WebSocketServer = require('websocket').server
 const date = new Date()
 const express = require('express')

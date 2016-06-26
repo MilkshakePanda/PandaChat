@@ -3,10 +3,14 @@
 
 var _socket = require("./lib/socket");
 
+var _socket2 = _interopRequireDefault(_socket);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var messageInput = document.querySelector(".chat__message-input");
 var usernameInput = document.querySelector(".login__username");
 
-_socket.Socket.connection = new WebSocket('wss://socketchat123.herokuapp.com');
+_socket2.default.connection = new WebSocket('wss://socketchat123.herokuapp.com');
 
 // When the window loads
 window.onload = function () {
@@ -14,17 +18,17 @@ window.onload = function () {
 };
 
 // On open
-_socket.Socket.connection.onopen = function () {
+_socket2.default.connection.onopen = function () {
     return console.log("connected");
 };
 
 // On error
-_socket.Socket.connection.onerror = function (error) {
+_socket2.default.connection.onerror = function (error) {
     return console.log("There was an error of type " + error + " please try again shortly");
 };
 
 // On Message
-_socket.Socket.connection.onmessage = function (event) {
+_socket2.default.connection.onmessage = function (event) {
 
     var incomingData = JSON.parse(event.data);
     var eventAction = incomingData.action;
@@ -35,15 +39,15 @@ _socket.Socket.connection.onmessage = function (event) {
     switch (eventAction) {
 
         case "new message":
-            _socket.Socket.displayMessage(incomingData);
+            _socket2.default.displayMessage(incomingData);
             break;
         case "user joined":
-            _socket.Socket.notifyUsers(incomingData);
-            _socket.Socket.updateConnectedUsers(incomingData.usernames);
+            _socket2.default.notifyUsers(incomingData);
+            _socket2.default.updateConnectedUsers(incomingData.usernames);
             break;
         case "user left":
-            _socket.Socket.notifyUsers(incomingData);
-            _socket.Socket.updateConnectedUsers(incomingData.usernames);
+            _socket2.default.notifyUsers(incomingData);
+            _socket2.default.updateConnectedUsers(incomingData.usernames);
             break;
     }
 };
@@ -60,10 +64,10 @@ window.onkeydown = function (event) {
     if (event.which === 13) {
         event.preventDefault();
 
-        if (_socket.Socket.username && messageInput.value) {
-            _socket.Socket.sendMessage();
+        if (_socket2.default.username && messageInput.value) {
+            _socket2.default.sendMessage();
         } else {
-            _socket.Socket.setUsername();
+            _socket2.default.setUsername();
         }
     }
 };
@@ -74,7 +78,6 @@ window.onkeydown = function (event) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Socket = undefined;
 
 var _sounds = require("./sounds");
 
@@ -174,7 +177,7 @@ Socket.setUsername = function () {
     }
 };
 
-exports.Socket = Socket;
+exports.default = Socket;
 
 },{"./sounds":3}],3:[function(require,module,exports){
 "use strict";
